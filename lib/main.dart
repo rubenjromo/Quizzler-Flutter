@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'question.dart';
+
 void main() => runApp(Quizzler());
 
 class Quizzler extends StatelessWidget {
@@ -27,13 +29,14 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
-  List<String> questions = [
-    'You can lead a cow down stairs but not up stairs.',
-    'Approximately one quarter of human bones are in the feet.',
-    'A slug\'s blood is green.'
-  ];
 
   int questionNumber = 0;
+
+  List<Question> questionBank = [
+    Question('You can lead a cow down stairs but not up stairs.',false),
+    Question('Approximately one quarter of human bones are in the feet.',true),
+    Question('A slug\'s blood is green.',true),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +50,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[questionNumber],
+                questionBank[questionNumber].questionText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -71,6 +74,14 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                bool correctAnswer = questionBank[questionNumber].questionAnswer;
+
+                if (correctAnswer == true) {
+                  print('You are right!');
+                } else {
+                  print('You are wrong');
+                }
+
                 setState(() {
                   scoreKeeper.add(Icon(
                     Icons.check,
@@ -95,6 +106,14 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                bool correctAnswer = questionBank[questionNumber].questionAnswer;
+
+                if (correctAnswer == false) {
+                  print('You are right!');
+                } else {
+                  print('You are wrong');
+                }
+
                 setState(() {
                   scoreKeeper.add(Icon(
                     Icons.close,
@@ -108,7 +127,6 @@ class _QuizPageState extends State<QuizPage> {
         ),
         Row(
           children: scoreKeeper,
-          
         )
       ],
     );
