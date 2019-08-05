@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'quizzbrain.dart';
 
- var quizBrain = QuizBrain();
+var quizBrain = QuizBrain();
 
 void main() => runApp(Quizzler());
 
@@ -32,7 +32,23 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
+  void addAnswer(bool userAnswer) {
+    setState(() {
+      if (userAnswer == quizBrain.getQuestionAnswer()) {
+        scoreKeeper.add(Icon(
+          Icons.check,
+          color: Colors.green,
+        ));
+      } else {
+        scoreKeeper.add(Icon(
+          Icons.close,
+          color: Colors.red,
+        ));
+      }
 
+      quizBrain.nextQuestion();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,21 +86,9 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = quizBrain.getQuestionAnswer();
-
-                if (correctAnswer == true) {
-                  print('You are right!');
-                } else {
-                  print('You are wrong');
-                }
-
-                setState(() {
-                  scoreKeeper.add(Icon(
-                    Icons.check,
-                    color: Colors.green,
-                  ));
-                  quizBrain.nextQuestion();
-                });
+                
+                  addAnswer(true);
+                
               },
             ),
           ),
@@ -102,21 +106,9 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = quizBrain.getQuestionAnswer();
-
-                if (correctAnswer == false) {
-                  print('You are right!');
-                } else {
-                  print('You are wrong');
-                }
-
-                setState(() {
-                  scoreKeeper.add(Icon(
-                    Icons.close,
-                    color: Colors.red,
-                  ));
-                  quizBrain.nextQuestion();
-                });
+                
+                  addAnswer(false);
+               
               },
             ),
           ),
